@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dororo - A Jornada do Ronin Amaldiçoado</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap">
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>Dororo</h1>
+      <p>A jornada do ronin amaldiçoado e do pequeno ladrão</p>
+      <nav>
+        <ul>
+          <li><a href="#story" @click="activeSection = 'story'">História</a></li>
+          <li><a href="#characters" @click="activeSection = 'characters'">Personagens</a></li>
+          <li><a href="#demons" @click="activeSection = 'demons'">Demônios</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section id="story" v-show="activeSection === 'story'">
+        <h2>A História de Hyakkimaru</h2>
+        <div class="timeline">
+          <div v-for="(event, index) in timeline" 
+               :key="index" 
+               class="timeline-event"
+               @click="showTimelineDetail(index)"
+               :class="{ 'active': currentTimelineDetail === index }">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <h3>{{ event.year }}</h3>
+              <p>{{ event.title }}</p>
+            </div>
+          </div>
+        </div>
+        <div v-if="currentTimelineDetail !== null" class="timeline-detail">
+          <h3>{{ timeline[currentTimelineDetail].title }}</h3>
+          <p>{{ timeline[currentTimelineDetail].description }}</p>
+          <img :src="timeline[currentTimelineDetail].image" :alt="timeline[currentTimelineDetail].title">
+        </div>
+      </section>
+      <section id="characters" v-show="activeSection === 'characters'">
+        <h2>Personagens</h2>
+        <div class="filters">
+          <input type="text" v-model="characterFilter" placeholder="Filtrar por nome...">
+          <select v-model="characterTypeFilter">
+            <option value="all">Todos</option>
+            <option value="human">Humanos</option>
+            <option value="demon">Demônios</option>
+          </select>
+        </div>
+        <div class="character-grid">
+          <div v-for="character in filteredCharacters" 
+               :key="character.id" 
+               class="character-card"
+               @click="showCharacterModal(character)">
+            <img :src="character.image" :alt="character.name">
+            <h3>{{ character.name }}</h3>
+            <p>{{ character.role }}</p>
+          </div>
+        </div>
+        <div v-if="selectedCharacter" class="modal">
+          <div class="modal-content">
+            <span class="close" @click="selectedCharacter = null">&times;</span>
+            <h2>{{ selectedCharacter.name }}</h2>
+            <img :src="selectedCharacter.image" :alt="selectedCharacter.name">
+            <p><strong>Papel:</strong> {{ selectedCharacter.role }}</p>
+            <p><strong>Descrição:</strong> {{ selectedCharacter.description }}</p>
+            <div v-if="selectedCharacter.abilities">
+              <h3>Habilidades</h3>
+              <ul>
+                <li v-for="(ability, index) in selectedCharacter.abilities" :key="index">
+                  {{ ability }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="demons" v-show="activeSection === 'demons'">
+        <h2>Demônios Derrotados</h2>
+        <div class="chart-controls">
+          <button @click="updateChartData('all')">Todos</button>
+          <button @click="updateChartData('body')">Partes do Corpo</button>
+          <button @click="updateChartData('power')">Nível de Poder</button>
+        </div>
+        <div class="chart-container">
+          <canvas ref="demonChart"></canvas>
+        </div>
+        <div class="demon-stats">
+          <p>Total de demônios derrotados: {{ totalDemonsDefeated }}</p>
+          <p>Órgãos recuperados: {{ recoveredOrgans.join(', ') }}</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Dororo Página de fãs | Não oficial</p>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

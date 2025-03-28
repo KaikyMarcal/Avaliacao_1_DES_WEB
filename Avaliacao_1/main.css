@@ -1,0 +1,335 @@
+:root {
+    --primary: #8B0000;
+    --secondary: #333;
+    --accent: #FFD700;
+    --text: #EEE;
+    --bg: #111;
+    --modal-bg: rgba(0, 0, 0, 0.8);
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  
+  header {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('../images/dororo-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 2rem;
+    text-align: center;
+    border-bottom: 3px solid var(--accent);
+  }
+  
+  h1, h2, h3 {
+    color: var(--accent);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    margin-bottom: 1rem;
+  }
+  
+  nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 1rem 0;
+  }
+  
+  nav li {
+    margin: 0 1rem;
+  }
+  
+  nav a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  
+  nav a:hover {
+    color: var(--text);
+  }
+  
+  main {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  section {
+    margin-bottom: 3rem;
+    min-height: 70vh;
+  }
+  
+  .timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 2rem auto;
+  }
+  
+  .timeline::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background-color: var(--accent);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -1px;
+  }
+  
+  .timeline-event {
+    padding: 10px 40px;
+    position: relative;
+    width: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .timeline-event.active {
+    transform: scale(1.02);
+    z-index: 1;
+  }
+
+  .timeline-event.active .timeline-content {
+    background-color: var(--primary);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+  }
+
+  .timeline-event.active .timeline-marker {
+    background-color: var(--text);
+    border: 2px solid var(--accent);
+    transform: scale(1.2);
+  }
+  
+  .timeline-event:nth-child(odd) {
+    left: 0;
+  }
+  
+  .timeline-event:nth-child(even) {
+    left: 50%;
+  }
+  
+  .timeline-marker {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    top: 15px;
+    right: -8px;
+  }
+  
+  .timeline-event:nth-child(even) .timeline-marker {
+    left: -8px;
+  }
+  
+  .timeline-content {
+    padding: 20px;
+    background-color: var(--secondary);
+    border-radius: 5px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+  }
+  
+  .timeline-detail {
+    background-color: var(--secondary);
+    padding: 2rem;
+    border-radius: 5px;
+    margin-top: 2rem;
+    border-left: 4px solid var(--accent);
+    animation: fadeIn 0.5s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .timeline-detail img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 1rem;
+    border-radius: 5px;
+  }
+  
+  .filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .filters input, .filters select {
+    padding: 0.5rem;
+    background-color: var(--secondary);
+    color: var(--text);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+  }
+  
+  .character-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .character-card {
+    background-color: var(--secondary);
+    border-radius: 5px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  
+  .character-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+  }
+  
+  .character-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+  }
+  
+  .character-card h3 {
+    padding: 0.5rem 1rem;
+    color: var(--accent);
+  }
+  
+  .character-card p {
+    padding: 0 1rem 1rem;
+    color: var(--text);
+  }
+  
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--modal-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: var(--bg);
+    padding: 2rem;
+    border-radius: 5px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    border: 2px solid var(--accent);
+  }
+  
+  .close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2rem;
+    color: var(--accent);
+    cursor: pointer;
+  }
+  
+  .modal-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 1rem 0;
+    border-radius: 5px;
+  }
+  
+  .chart-controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .chart-controls button {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary);
+    color: var(--text);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .chart-controls button:hover {
+    background-color: #6d0000;
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 400px;
+    margin: 2rem 0;
+  }
+  
+  .demon-stats {
+    background-color: var(--secondary);
+    padding: 1rem;
+    border-radius: 5px;
+  }
+  
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--secondary);
+    margin-top: 2rem;
+  }
+  
+  @media (max-width: 768px) {
+    .timeline::before {
+      left: 31px;
+    }
+    
+    .timeline-event {
+      width: 100%;
+      padding-left: 70px;
+      padding-right: 25px;
+    }
+    
+    .timeline-event:nth-child(even) {
+      left: 0;
+    }
+    
+    .timeline-marker {
+      left: 23px !important;
+    }
+    
+    .character-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+    
+    .filters {
+      flex-direction: column;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    header {
+      padding: 1rem;
+    }
+    
+    nav ul {
+      flex-direction: column;
+    }
+    
+    nav li {
+      margin: 0.5rem 0;
+    }
+    
+    .character-grid {
+      grid-template-columns: 1fr;
+    }
+  }
